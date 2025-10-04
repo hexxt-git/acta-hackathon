@@ -34,20 +34,27 @@ export function ChatBody({ messages }: { messages: Message[] }) {
             ref={chatBodyRef}
         >
             <div className="flex h-fit flex-col gap-2 p-2 ps-1 pt-3">
-                {messages.map((message) =>
+                {messages.map((message, index) =>
                     message.sender === 'user' ? (
                         <motion.div
                             className="bg-primary text-primary-foreground w-fit self-end rounded-md px-2 py-1 text-sm"
                             initial={{ opacity: 0, x: 10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.15, ease: 'easeOut' }}
+                            key={index}
                         >
                             {message.message}
                         </motion.div>
                     ) : (
-                        <div className="w-full max-w-[90%] rounded-md p-2">
+                        <motion.div
+                            className="w-full max-w-[90%] rounded-md p-2"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.4, ease: 'easeOut' }}
+                            key={index}
+                        >
                             <Markdown content={message.message} />
-                        </div>
+                        </motion.div>
                     ),
                 )}
                 <div ref={bottomRef} />

@@ -1,8 +1,17 @@
 import { Markdown } from '@/components/ui/markdown';
+import { useStore } from '@tanstack/react-store';
+import { widthStore } from '@/stores/width';
+import { cn } from '@/lib/utils';
 
 export function ChatBody() {
+    const width = useStore(widthStore);
     return (
-        <div className="bg-card flex h-full flex-col gap-2 overflow-y-scroll rounded-md p-2 max-md:grow-1 md:h-120">
+        <div
+            className={cn(
+                'bg-card flex h-full max-h-[calc(100vh-7rem)] flex-col gap-2 overflow-y-scroll rounded-md p-2 max-md:grow-1',
+                width === 'narrow' && 'md:h-120',
+            )}
+        >
             <div className="bg-primary text-primary-foreground w-fit self-end rounded-md px-2 py-1 text-sm">
                 Hello Can you help me with my project?
             </div>

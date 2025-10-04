@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { useTheme } from 'next-themes';
 
 interface MarkdownProps {
     content: string;
@@ -12,11 +13,11 @@ interface MarkdownProps {
 // Custom code component for syntax highlighting
 function CodeBlock({ node, inline, className, children, ...props }: any) {
     const match = /language-(\w+)/.exec(className || '');
-    const isDark = document.documentElement.classList.contains('dark');
+    const { theme } = useTheme();
 
     return !inline && match ? (
         <SyntaxHighlighter
-            style={isDark ? oneDark : oneLight}
+            style={theme === 'dark' ? oneDark : oneLight}
             language={match[1]}
             PreTag="div"
             className="rounded-md p-1.5! text-sm"

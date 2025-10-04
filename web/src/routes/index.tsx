@@ -23,6 +23,7 @@ function App() {
         const handleResize = () => {
             if (window.innerWidth < 768) {
                 widthStore.setState('full');
+                sidebarStore.setState('closed');
             }
         };
         window.addEventListener('resize', handleResize);

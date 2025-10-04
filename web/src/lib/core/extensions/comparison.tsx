@@ -28,36 +28,31 @@ const comparisonSchema = z.object({
     options: z.array(z.string()).describe('The list of items being compared, used for legends and filters.'),
     comparisons: z.array(
         z.object({
-            title: z
-                .string()
-                .describe("the title of the comparison, e.g. 'Performance by department', 'Sales by region', etc."),
-            description: z.string().optional().describe('Optional context about the comparison.'),
+            annotation: z.string().optional().describe('Optional context about the comparison.'),
             type: z.enum(['barChart', 'radarChart', 'lineChart', 'pieChart']),
             comparison: z.object({
                 label: z.string().describe("the field we are comparing, e.g. 'Department A', 'Version 2', etc."),
-                data: z
-                    .array(
-                        z.object({
-                            category: z
-                                .string()
-                                .describe('The group or time bucket for the comparison, e.g. date or segment.'),
-                            values: z
-                                .array(
-                                    z.object({
-                                        key: z
-                                            .string()
-                                            .describe(
-                                                'The comparison option identifier (should match an entry in options).',
-                                            ),
-                                        value: z
-                                            .number()
-                                            .describe('The numeric value for this option in the given category.'),
-                                    }),
-                                )
-                                .describe('Each option/value pair that contributes to this comparison category.'),
-                        }),
-                    )
-                    .describe('the values of the comparison'),
+                data: z.array(
+                    z.object({
+                        category: z
+                            .string()
+                            .describe('The group or time bucket for the comparison, e.g. date or segment.'),
+                        values: z
+                            .array(
+                                z.object({
+                                    key: z
+                                        .string()
+                                        .describe(
+                                            'The comparison option identifier (should match an entry in options).',
+                                        ),
+                                    value: z
+                                        .number()
+                                        .describe('The numeric value for this option in the given category.'),
+                                }),
+                            )
+                            .describe('Each option/value pair that contributes to this comparison category.'),
+                    }),
+                ),
             }),
         }),
     ),
@@ -100,14 +95,9 @@ const comparisonRenderer = ({ options = [], comparisons = [] }: Partial<Comparis
                 </div>
             )}
 
-            {comparisons.map((comparison, index) => (
-                <ComparisonCard
-                    key={`${comparison.title}-${index}`}
-                    comparison={comparison}
-                    options={options}
-                    optionColors={optionColors}
-                />
-            ))}
+            {comparisons.length > 0 && (
+                <ComparisonCard comparison={comparisons[0]} options={options} optionColors={optionColors} />
+            )}
         </div>
     );
 };
@@ -161,19 +151,16 @@ function ComparisonCard({ comparison, options, optionColors }: ComparisonCardPro
     return (
         <Card className="space-y-4 p-4">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <div className="space-y-1">
-                    <h3 className="text-foreground text-base font-semibold">{comparison.title}</h3>
-                    <p className="text-muted-foreground text-xs">{comparison.comparison?.label}</p>
-                    {comparison.description ? (
-                        <p className="text-muted-foreground text-sm">{comparison.description}</p>
-                    ) : null}
-                </div>
+                <p className="text-muted-foreground text-xs">{comparison.comparison?.label}</p>
+                {comparison.annotation ? (
+                    <p className="text-muted-foreground text-sm">{comparison.annotation}</p>
+                ) : null}
             </div>
 
             {!hasData ? (
                 <div className="text-muted-foreground text-sm">No data available for this comparison.</div>
             ) : (
-                <div className="h-[280px] w-full">
+                <div className="h-[280px] w-full 2xl:h-[360px]">
                     {renderChart({
                         chartType,
                         chartData,
@@ -209,10 +196,11 @@ function renderChart({ chartType, chartData, pieData, options, optionColors }: R
                         {options.map((option) => (
                             <Bar
                                 key={option}
+                                name={option}
                                 dataKey={option}
                                 fill={optionColors[option]}
                                 radius={[4, 4, 0, 0]}
-                                maxBarSize={42}
+                                maxBarSize={64}
                             />
                         ))}
                     </BarChart>

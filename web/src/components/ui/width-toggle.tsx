@@ -14,13 +14,13 @@ export function WidthToggle() {
             size="sm"
             onClick={() => widthStore.setState(width === 'full' ? 'narrow' : 'full')}
         >
-            <Minimize
+            <Maximize
                 className={cn(
                     'h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all',
                     width === 'full' && 'scale-0 -rotate-90',
                 )}
             />
-            <Maximize
+            <Minimize
                 className={cn(
                     'absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all',
                     width === 'full' && 'scale-100 rotate-0',

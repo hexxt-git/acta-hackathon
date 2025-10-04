@@ -9,9 +9,11 @@ import { MessagesContainer } from './messages-container';
 export function ChatBody({
     messages,
     onInteract,
+    pending,
 }: {
     messages: Message[];
     onInteract: (interaction: string, props: unknown[]) => void;
+    pending: boolean;
 }) {
     const width = useStore(widthStore);
     const chatBodyRef = useRef<HTMLDivElement>(null);
@@ -35,7 +37,7 @@ export function ChatBody({
             }}
             ref={chatBodyRef}
         >
-            <MessagesContainer messages={messages} onInteract={onInteract} />
+            <MessagesContainer messages={messages} onInteract={onInteract} pending={pending} />
         </motion.div>
     );
 }

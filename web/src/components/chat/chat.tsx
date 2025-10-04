@@ -105,7 +105,7 @@ export function Chat() {
 
     return (
         <div className={cn('flex w-full flex-col gap-2', width === 'full' && 'h-full')}>
-            <ChatBody messages={messages} onInteract={handleInteract} />
+            <ChatBody messages={messages} onInteract={handleInteract} pending={mutation.isPending} />
             <ChatInput onSubmit={handleSubmit} />
         </div>
     );

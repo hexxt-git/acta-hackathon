@@ -2,13 +2,15 @@ import { Message } from '@/lib/core/types/message';
 import { UserMessage } from './user-message';
 import { AssistantMessage } from './assistant-message';
 import { ChatBodyErrorBoundary } from './error-boundaries';
+import { PendingMessage } from './pending-message';
 
 interface MessagesContainerProps {
     messages: Message[];
     onInteract: (interaction: string, props: unknown[]) => void;
+    pending: boolean;
 }
 
-export function MessagesContainer({ messages, onInteract }: MessagesContainerProps) {
+export function MessagesContainer({ messages, onInteract, pending }: MessagesContainerProps) {
     return (
         <ChatBodyErrorBoundary>
             <div className="flex h-fit min-h-full grow-1 flex-col gap-2 p-2 ps-1 pt-3">
@@ -24,7 +26,7 @@ export function MessagesContainer({ messages, onInteract }: MessagesContainerPro
                         <AssistantMessage key={index} message={message} index={index} onInteract={onInteract} />
                     ),
                 )}
-                <div />
+                {pending && <PendingMessage />}
             </div>
         </ChatBodyErrorBoundary>
     );

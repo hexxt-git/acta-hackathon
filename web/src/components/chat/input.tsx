@@ -37,7 +37,7 @@ export function ChatInput({ onSubmit }: { onSubmit: (message: string, files: Fil
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+        if (!e.shiftKey && e.key === 'Enter') {
             e.preventDefault();
             submitMessage();
         }
@@ -49,6 +49,13 @@ export function ChatInput({ onSubmit }: { onSubmit: (message: string, files: Fil
             textareaRef.current.setSelectionRange(cursorPosition, cursorPosition);
         }
     }, [message.length >= 20, cursorPosition]);
+
+    useEffect(() => {
+        if (message.length < 20 && inputRef.current && cursorPosition !== null) {
+            inputRef.current.focus();
+            inputRef.current.setSelectionRange(cursorPosition, cursorPosition);
+        }
+    }, [message.length < 20, cursorPosition]);
 
     return (
         <motion.form

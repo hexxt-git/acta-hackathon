@@ -134,6 +134,9 @@ code {
     body {
         @apply bg-background text-foreground font-sans;
     }
+    *::selection {
+        @apply bg-primary/80 text-primary-foreground;
+    }
 }
 
 @layer components {

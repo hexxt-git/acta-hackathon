@@ -8,6 +8,7 @@ import { useEffect, useId, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
 import { TagInput, TagItem } from '@/components/ui/tag-input';
+import { AnimatePresence, motion } from 'motion/react';
 
 const emailSchema = z.object({
     subject: z.string(),
@@ -98,29 +99,42 @@ const emailRenderer = ({
                     </Button>
                 </div>
             </div>
-            {open && (
-                <>
-                    <div className="space-y-2">
-                        <Label htmlFor={`${id}-recipients`}>Recipients</Label>
-                        <TagInput
-                            id={`${id}-recipients`}
-                            tags={recipients}
-                            onChange={setRecipients}
-                            placeholder="Add recipients"
-                        />
-                    </div>
-                    <div className="grid gap-2 sm:grid-cols-2 sm:gap-4">
-                        <div className="space-y-2">
-                            <Label htmlFor={`${id}-cc`}>CC</Label>
-                            <TagInput id={`${id}-cc`} tags={cc} onChange={setCc} placeholder="Add CC recipients" />
+            <AnimatePresence>
+                {open && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: 'easeInOut' }}
+                        className="overflow-hidden"
+                    >
+                        <div className="space-y-2 pt-4">
+                            <Label htmlFor={`${id}-recipients`}>Recipients</Label>
+                            <TagInput
+                                id={`${id}-recipients`}
+                                tags={recipients}
+                                onChange={setRecipients}
+                                placeholder="Add recipients"
+                            />
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor={`${id}-bcc`}>BCC</Label>
-                            <TagInput id={`${id}-bcc`} tags={bcc} onChange={setBcc} placeholder="Add BCC recipients" />
+                        <div className="grid gap-2 pt-2 sm:grid-cols-2 sm:gap-4">
+                            <div className="space-y-2">
+                                <Label htmlFor={`${id}-cc`}>CC</Label>
+                                <TagInput id={`${id}-cc`} tags={cc} onChange={setCc} placeholder="Add CC recipients" />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor={`${id}-bcc`}>BCC</Label>
+                                <TagInput
+                                    id={`${id}-bcc`}
+                                    tags={bcc}
+                                    onChange={setBcc}
+                                    placeholder="Add BCC recipients"
+                                />
+                            </div>
                         </div>
-                    </div>
-                </>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
             <div className="space-y-2">
                 <Label htmlFor={`${id}-body`}>Body</Label>
                 <Textarea id={`${id}-body`} value={body} onChange={(e) => setBody(e.target.value)} rows={15} />

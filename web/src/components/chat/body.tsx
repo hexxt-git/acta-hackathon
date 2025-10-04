@@ -1,11 +1,10 @@
-import { Markdown } from '@/components/ui/markdown';
 import { useStore } from '@tanstack/react-store';
 import { widthStore } from '@/stores/width';
 import { motion } from 'motion/react';
 import { cn } from '@/lib/utils';
 import { useEffect, useRef } from 'react';
 import { Message } from '@/lib/core/types/message';
-import { extensions } from '@/lib/core/extensions';
+import { MessagesContainer } from './messages-container';
 
 export function ChatBody({
     messages,
@@ -16,11 +15,11 @@ export function ChatBody({
 }) {
     const width = useStore(widthStore);
     const chatBodyRef = useRef<HTMLDivElement>(null);
-    const bottomRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        console.log('scrolled to bottom');
+        if (chatBodyRef.current) {
+            chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+        }
     }, [messages]);
 
     return (
@@ -36,51 +35,7 @@ export function ChatBody({
             }}
             ref={chatBodyRef}
         >
-            <div className="flex h-fit min-h-full grow-1 flex-col gap-2 p-2 ps-1 pt-3">
-                {messages.length === 0 && (
-                    <p className="text-muted-foreground flex h-full grow-1 items-center justify-center text-center text-sm">
-                        No messages yet
-                    </p>
-                )}
-                {messages.map((message, index) =>
-                    message.role === 'user' ? (
-                        <motion.div
-                            className="bg-primary text-primary-foreground w-fit self-end rounded-md px-2 py-1 text-sm shadow-sm"
-                            initial={{ opacity: 0, x: 10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.2, delay: 0.1, ease: 'easeOut' }}
-                            key={index}
-                        >
-                            {typeof message.content === 'string' ? message.content : JSON.stringify(message.content)}
-                        </motion.div>
-                    ) : (
-                        <motion.div
-                            className="w-full max-w-[90%] rounded-md p-2"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ duration: 0.4, ease: 'easeOut' }}
-                            key={index}
-                        >
-                            {Array.isArray(message.content.response) &&
-                                message.content.response.map((part, index) => {
-                                    if (typeof part === 'string') {
-                                        return <Markdown content={part} key={`text-${index}`} />;
-                                    }
-                                    const extension = extensions.find((ext) => ext.name === part.extension);
-                                    if (!extension) return 'UNKNOWN EXTENSION';
-                                    return (
-                                        <extension.renderer
-                                            key={`${part.extension}-${index}`}
-                                            {...part.response}
-                                            onInteract={onInteract}
-                                        />
-                                    );
-                                })}
-                        </motion.div>
-                    ),
-                )}
-                <div ref={bottomRef} />
-            </div>
+            <MessagesContainer messages={messages} onInteract={onInteract} />
         </motion.div>
     );
 }

@@ -2,6 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 import superjson from 'superjson';
 import { createTRPCClient, httpBatchStreamLink } from '@trpc/client';
 import { createTRPCOptionsProxy } from '@trpc/tanstack-react-query';
+import { ThemeProvider } from 'next-themes';
 
 import type { TRPCRouter } from '@/integrations/trpc/router';
 
@@ -44,8 +45,10 @@ export function getContext() {
 
 export function Provider({ children, queryClient }: { children: React.ReactNode; queryClient: QueryClient }) {
     return (
-        <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
-            {children}
-        </TRPCProvider>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <TRPCProvider trpcClient={trpcClient} queryClient={queryClient}>
+                {children}
+            </TRPCProvider>
+        </ThemeProvider>
     );
 }

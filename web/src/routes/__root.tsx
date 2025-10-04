@@ -13,7 +13,6 @@ import type { TRPCOptionsProxy } from '@trpc/tanstack-react-query';
 
 interface MyRouterContext {
     queryClient: QueryClient;
-
     trpc: TRPCOptionsProxy<TRPCRouter>;
 }
 
@@ -33,13 +32,26 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
         ],
         links: [
             {
+                rel: 'preconnect',
+                href: 'https://fonts.googleapis.com',
+            },
+            {
+                rel: 'preconnect',
+                href: 'https://fonts.gstatic.com',
+                crossOrigin: 'anonymous',
+            },
+            {
+                rel: 'stylesheet',
+                href: 'https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap',
+            },
+            {
                 rel: 'stylesheet',
                 href: appCss,
             },
         ],
     }),
-
     shellComponent: RootDocument,
+    notFoundComponent: NotFound,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
@@ -66,4 +78,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </body>
         </html>
     );
+}
+
+function NotFound() {
+    return <div>Not Found</div>;
 }

@@ -6,13 +6,18 @@ import { google } from '@ai-sdk/google';
 import { prompt, responseSchema } from '../lib/core/prompt';
 
 const inputSchema = z.object({
-    messages: z.array(
-        z.object({
-            role: z.enum(['user', 'assistant']),
-            content: z.string(),
-        }),
-    ),
+    chatId: z.string(),
+    message: z.string(),
 });
+
+export const database: Record<
+    string,
+    {
+        messages: { role: 'assistant' | 'user'; content: string }[];
+        createdAt: Date;
+        updatedAt: Date;
+    }
+> = {};
 
 async function handler({ request }: { request: Request }) {
     const validationResult = await validateRequestBody(request, inputSchema);
@@ -21,7 +26,25 @@ async function handler({ request }: { request: Request }) {
         return new Response(JSON.stringify({ error: validationResult.error }), { status: validationResult.status });
     }
 
-    const { messages } = validationResult.data;
+    const { chatId, message } = validationResult.data;
+    const now = new Date();
+
+    // Initialize chat if it doesn't exist
+    if (!database[chatId]) {
+        database[chatId] = {
+            messages: [],
+            createdAt: now,
+            updatedAt: now,
+        };
+    }
+
+    // Add the user message
+    database[chatId].messages.push({ role: 'user' as const, content: message });
+    database[chatId].updatedAt = now;
+
+    const messages = database[chatId].messages;
+
+    console.log(messages);
 
     return new Response(
         new ReadableStream({
@@ -42,14 +65,25 @@ async function handler({ request }: { request: Request }) {
                     });
 
                     let receivedMessage = false;
+                    let fullResponse: any = null;
 
                     for await (const partialObject of result.partialObjectStream) {
                         controller.enqueue(JSON.stringify(partialObject));
+                        fullResponse = partialObject;
                         receivedMessage = true;
                     }
 
                     if (!receivedMessage) {
                         throw new Error('No message received');
+                    }
+
+                    // Store the assistant's response in the database
+                    if (fullResponse) {
+                        database[chatId].messages.push({
+                            role: 'assistant' as const,
+                            content: JSON.stringify(fullResponse),
+                        });
+                        database[chatId].updatedAt = new Date();
                     }
 
                     controller.close();

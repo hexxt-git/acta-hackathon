@@ -27,7 +27,7 @@ export function ChatBody({
     return (
         <motion.div
             className={cn(
-                'bg-card h-full max-h-[calc(100vh-9rem)] grow-1 overflow-y-scroll rounded-md p-1',
+                'bg-card h-full max-h-[calc(100vh-8.5rem)] grow-1 overflow-y-scroll rounded-md p-1 dark:border-r',
                 width === 'narrow' && 'h-120 max-h-120',
             )}
             layout

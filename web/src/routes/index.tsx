@@ -1,5 +1,5 @@
 import { Chat } from '@/components/chat/chat';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate, useSearch } from '@tanstack/react-router';
 import { cn } from '@/lib/utils';
 import { useStore } from '@tanstack/react-store';
 import { widthStore } from '@/stores/width';
@@ -15,9 +15,19 @@ export const Route = createFileRoute('/')({
 function App() {
     const width = useStore(widthStore);
     const sidebar = useStore(sidebarStore);
+    const navigate = useNavigate();
     const handleSidebarToggle = () => {
         sidebarStore.setState(sidebar === 'open' ? 'closed' : 'open');
     };
+    // I'd use params but this is easier for now
+    const chatId: string | undefined = (useSearch({ strict: false }) as any).chatId;
+
+    useEffect(() => {
+        if (!chatId) {
+            const newChat = Math.random().toString(36).substring(2, 15);
+            navigate({ to: '/', search: { chatId: newChat } });
+        }
+    }, [chatId]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -40,7 +50,7 @@ function App() {
                 )}
             >
                 <TopBar onSidebarToggle={handleSidebarToggle} />
-                <Chat />
+                <Chat chatId={chatId} />
             </main>
         </div>
     );

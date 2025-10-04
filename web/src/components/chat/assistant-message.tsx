@@ -26,7 +26,7 @@ export function AssistantMessage({ message, index, onInteract }: AssistantMessag
 
     return (
         <motion.div
-            className="w-full max-w-[90%] rounded-md p-2"
+            className="w-full max-w-[90%] space-y-2 rounded-md p-2"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, ease: 'easeOut' }}

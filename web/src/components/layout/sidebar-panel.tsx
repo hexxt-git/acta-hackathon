@@ -13,10 +13,13 @@ export function SidebarPanel() {
         <motion.aside
             animate={{
                 opacity: sidebar === 'open' ? 1 : 0,
-                width: sidebar === 'open' ? '256px' : '0px',
+                width: sidebar === 'open' ? '260px' : '0px',
                 padding: sidebar === 'open' ? '0.5rem' : '0px',
             }}
-            className={cn('bg-card overflow-hidden rounded-md max-md:hidden', width === 'narrow' && 'hidden')}
+            className={cn(
+                'bg-card overflow-hidden rounded-md max-md:hidden dark:border-r',
+                width === 'narrow' && 'hidden',
+            )}
             transition={{ duration: 0.15, ease: 'easeOut' }}
         >
             <Sidebar />

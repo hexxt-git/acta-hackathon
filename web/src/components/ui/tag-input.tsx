@@ -124,7 +124,7 @@ const TagInputComponent = React.forwardRef<HTMLDivElement, TagInputProps>(
                         }
                         setActiveTagIndex(null);
                     }}
-                    className={cn('h-7 min-w-[80px] flex-1 bg-transparent px-2 shadow-none outline-none')}
+                    className={cn('h-7 min-w-[80px] flex-1 bg-transparent px-2 text-sm shadow-none outline-none')}
                     placeholder={placeholder}
                     disabled={disabled || (maxTags !== undefined && currentTags.length >= maxTags)}
                 />

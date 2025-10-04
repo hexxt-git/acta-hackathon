@@ -1,25 +1,42 @@
-import { z } from 'zod';
-
+import { database } from '@/routes/api.ai';
 import { createTRPCRouter, publicProcedure } from './init';
+import { z } from 'zod';
 
 import type { TRPCRouterRecord } from '@trpc/server';
 
-const todos = [
-    { id: 1, name: 'Get groceries' },
-    { id: 2, name: 'Buy a new phone' },
-    { id: 3, name: 'Finish the project' },
-];
+const chatsRouter = {
+    list: publicProcedure.query(() => {
+        return Object.keys(database).map((chatId) => {
+            const chatData = database[chatId];
+            const firstMessage = chatData.messages.find((msg) => msg.role === 'user');
+            const preview = firstMessage
+                ? firstMessage.content.length > 30
+                    ? firstMessage.content.substring(0, 30) + '...'
+                    : firstMessage.content
+                : '';
 
-const todosRouter = {
-    list: publicProcedure.query(() => todos),
-    add: publicProcedure.input(z.object({ name: z.string() })).mutation(({ input }) => {
-        const newTodo = { id: todos.length + 1, name: input.name };
-        todos.push(newTodo);
-        return newTodo;
+            return {
+                id: chatId,
+                messages: chatData.messages.length,
+                preview,
+                createdAt: chatData.createdAt,
+                updatedAt: chatData.updatedAt,
+            };
+        });
+    }),
+    get: publicProcedure.input(z.object({ id: z.string() })).query(({ input }) => {
+        return database[input.id]?.messages || [];
+    }),
+    delete: publicProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
+        if (database[input.id]) {
+            delete database[input.id];
+            return { success: true };
+        }
+        return { success: false, error: 'Chat not found' };
     }),
 } satisfies TRPCRouterRecord;
 
 export const trpcRouter = createTRPCRouter({
-    todos: todosRouter,
+    chats: chatsRouter,
 });
 export type TRPCRouter = typeof trpcRouter;

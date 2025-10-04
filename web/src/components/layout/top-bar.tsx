@@ -5,10 +5,11 @@ import { widthStore } from '@/stores/width';
 import { sidebarStore } from '@/stores/sidebar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Sidebar } from 'lucide-react';
+import { Plus, Sidebar } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { WidthToggle } from '@/components/ui/width-toggle';
 import { Sidebar as SidebarContent } from './sidebar.tsx';
+import { useNavigate } from '@tanstack/react-router';
 
 type TopBarProps = {
     onSidebarToggle: () => void;
@@ -17,6 +18,7 @@ type TopBarProps = {
 export function TopBar({ onSidebarToggle }: TopBarProps) {
     const width = useStore(widthStore);
     const sidebar = useStore(sidebarStore);
+    const navigate = useNavigate();
 
     return (
         <motion.div
@@ -35,7 +37,10 @@ export function TopBar({ onSidebarToggle }: TopBarProps) {
                                 <Sidebar className="size-4" />
                             </Button>
                         </PopoverTrigger>
-                        <PopoverContent align="start" className={cn('shadow-none', width === 'full' && 'md:hidden')}>
+                        <PopoverContent
+                            align="start"
+                            className={cn('bg-card shadow-none', width === 'full' && 'md:hidden')}
+                        >
                             <SidebarContent />
                         </PopoverContent>
                     </Popover>
@@ -59,6 +64,15 @@ export function TopBar({ onSidebarToggle }: TopBarProps) {
                 transition={{ duration: 0.15, ease: 'easeOut' }}
                 className={cn('top-4 right-4 flex items-center gap-1', width === 'narrow' && 'md:fixed')}
             >
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() =>
+                        navigate({ to: '/', search: { chatId: Math.random().toString(36).substring(2, 15) } })
+                    }
+                >
+                    <Plus />
+                </Button>
                 <WidthToggle />
                 <ThemeToggle />
             </motion.div>

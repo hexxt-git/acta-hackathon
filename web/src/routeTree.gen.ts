@@ -8,115 +8,113 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as PinRouteImport } from './routes/pin'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as ApiAiRouteImport } from './routes/api.ai'
-import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$'
+import { Route as rootRouteImport } from './routes/__root';
+import { Route as PinRouteImport } from './routes/pin';
+import { Route as IndexRouteImport } from './routes/index';
+import { Route as ApiAiRouteImport } from './routes/api.ai';
+import { Route as ApiTrpcSplatRouteImport } from './routes/api.trpc.$';
 
 const PinRoute = PinRouteImport.update({
-  id: '/pin',
-  path: '/pin',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/pin',
+    path: '/pin',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/',
+    path: '/',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const ApiAiRoute = ApiAiRouteImport.update({
-  id: '/api/ai',
-  path: '/api/ai',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/api/ai',
+    path: '/api/ai',
+    getParentRoute: () => rootRouteImport,
+} as any);
 const ApiTrpcSplatRoute = ApiTrpcSplatRouteImport.update({
-  id: '/api/trpc/$',
-  path: '/api/trpc/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
+    id: '/api/trpc/$',
+    path: '/api/trpc/$',
+    getParentRoute: () => rootRouteImport,
+} as any);
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/pin': typeof PinRoute
-  '/api/ai': typeof ApiAiRoute
-  '/api/trpc/$': typeof ApiTrpcSplatRoute
+    '/': typeof IndexRoute;
+    '/pin': typeof PinRoute;
+    '/api/ai': typeof ApiAiRoute;
+    '/api/trpc/$': typeof ApiTrpcSplatRoute;
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/pin': typeof PinRoute
-  '/api/ai': typeof ApiAiRoute
-  '/api/trpc/$': typeof ApiTrpcSplatRoute
+    '/': typeof IndexRoute;
+    '/pin': typeof PinRoute;
+    '/api/ai': typeof ApiAiRoute;
+    '/api/trpc/$': typeof ApiTrpcSplatRoute;
 }
 export interface FileRoutesById {
-  __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/pin': typeof PinRoute
-  '/api/ai': typeof ApiAiRoute
-  '/api/trpc/$': typeof ApiTrpcSplatRoute
+    __root__: typeof rootRouteImport;
+    '/': typeof IndexRoute;
+    '/pin': typeof PinRoute;
+    '/api/ai': typeof ApiAiRoute;
+    '/api/trpc/$': typeof ApiTrpcSplatRoute;
 }
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/pin' | '/api/ai' | '/api/trpc/$'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/pin' | '/api/ai' | '/api/trpc/$'
-  id: '__root__' | '/' | '/pin' | '/api/ai' | '/api/trpc/$'
-  fileRoutesById: FileRoutesById
+    fileRoutesByFullPath: FileRoutesByFullPath;
+    fullPaths: '/' | '/pin' | '/api/ai' | '/api/trpc/$';
+    fileRoutesByTo: FileRoutesByTo;
+    to: '/' | '/pin' | '/api/ai' | '/api/trpc/$';
+    id: '__root__' | '/' | '/pin' | '/api/ai' | '/api/trpc/$';
+    fileRoutesById: FileRoutesById;
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  PinRoute: typeof PinRoute
-  ApiAiRoute: typeof ApiAiRoute
-  ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute
+    IndexRoute: typeof IndexRoute;
+    PinRoute: typeof PinRoute;
+    ApiAiRoute: typeof ApiAiRoute;
+    ApiTrpcSplatRoute: typeof ApiTrpcSplatRoute;
 }
 
 declare module '@tanstack/react-router' {
-  interface FileRoutesByPath {
-    '/pin': {
-      id: '/pin'
-      path: '/pin'
-      fullPath: '/pin'
-      preLoaderRoute: typeof PinRouteImport
-      parentRoute: typeof rootRouteImport
+    interface FileRoutesByPath {
+        '/pin': {
+            id: '/pin';
+            path: '/pin';
+            fullPath: '/pin';
+            preLoaderRoute: typeof PinRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/': {
+            id: '/';
+            path: '/';
+            fullPath: '/';
+            preLoaderRoute: typeof IndexRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/api/ai': {
+            id: '/api/ai';
+            path: '/api/ai';
+            fullPath: '/api/ai';
+            preLoaderRoute: typeof ApiAiRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
+        '/api/trpc/$': {
+            id: '/api/trpc/$';
+            path: '/api/trpc/$';
+            fullPath: '/api/trpc/$';
+            preLoaderRoute: typeof ApiTrpcSplatRouteImport;
+            parentRoute: typeof rootRouteImport;
+        };
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/ai': {
-      id: '/api/ai'
-      path: '/api/ai'
-      fullPath: '/api/ai'
-      preLoaderRoute: typeof ApiAiRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/trpc/$': {
-      id: '/api/trpc/$'
-      path: '/api/trpc/$'
-      fullPath: '/api/trpc/$'
-      preLoaderRoute: typeof ApiTrpcSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-  }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  PinRoute: PinRoute,
-  ApiAiRoute: ApiAiRoute,
-  ApiTrpcSplatRoute: ApiTrpcSplatRoute,
-}
-export const routeTree = rootRouteImport
-  ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+    IndexRoute: IndexRoute,
+    PinRoute: PinRoute,
+    ApiAiRoute: ApiAiRoute,
+    ApiTrpcSplatRoute: ApiTrpcSplatRoute,
+};
+export const routeTree = rootRouteImport._addFileChildren(rootRouteChildren)._addFileTypes<FileRouteTypes>();
 
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { getRouter } from './router.tsx';
+import type { createStart } from '@tanstack/react-start';
 declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
+    interface Register {
+        ssr: true;
+        router: Awaited<ReturnType<typeof getRouter>>;
+    }
 }

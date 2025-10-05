@@ -1,6 +1,15 @@
 {
     "$schema": "https://openapi.vercel.sh/vercel.json",
+    "functions": {
+        "dist/server/server.js": {
+            "runtime": "nodejs20.x"
+        }
+    },
     "rewrites": [
+        {
+            "source": "/api/(.*)",
+            "destination": "/dist/server/server.js"
+        },
         {
             "source": "/(.*)",
             "destination": "/index.html"

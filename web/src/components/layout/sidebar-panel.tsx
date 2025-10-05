@@ -13,7 +13,7 @@ export function SidebarPanel() {
         <motion.aside
             animate={{
                 opacity: sidebar === 'open' ? 1 : 0,
-                width: sidebar === 'open' ? '260px' : '0px',
+                width: sidebar === 'open' ? '280px' : '0px',
                 padding: sidebar === 'open' ? '0.5rem' : '0px',
             }}
             className={cn(

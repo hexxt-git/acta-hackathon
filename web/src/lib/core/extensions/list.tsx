@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { Extension } from '../types/extensions';
+import { Markdown } from '@/components/ui/markdown';
 
 const listSchema = z.union([
     z.object({
@@ -31,7 +32,9 @@ const listRenderer = ({ type, style, items }: Partial<z.infer<typeof listSchema>
                         <span className="text-muted-foreground text-xs">
                             {style === 'bullet' ? '•' : `${index + 1}.`}
                         </span>
-                        <span className="flex-1 text-sm/[1.2]">{item}</span>
+                        <div className="flex-1 text-sm/[1.2]">
+                            <Markdown content={item} />
+                        </div>
                     </div>
                 ))}
             </div>
@@ -47,10 +50,14 @@ const listRenderer = ({ type, style, items }: Partial<z.infer<typeof listSchema>
                         className="bg-background dark:bg-input/30 dark:border-border rounded-md border border-transparent p-2"
                     >
                         <div className="flex items-start gap-2">
-                            <span className="text-muted-foreground mt-0.5 text-xs">{index + 1}.</span>
+                            <span className="text-muted-foreground mt-1.5 text-xs">{index + 1}.</span>
                             <div className="flex-1">
-                                <h4 className="mb-1 text-sm font-medium">{item.title}</h4>
-                                <p className="text-muted-foreground text-xs">{item.description}</p>
+                                <div className="mb-1 text-sm font-medium">
+                                    <Markdown content={item.title} />
+                                </div>
+                                <div className="text-muted-foreground text-xs">
+                                    <Markdown content={item.description} />
+                                </div>
                             </div>
                         </div>
                     </div>

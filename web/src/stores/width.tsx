@@ -1,5 +1,17 @@
 import { Store } from '@tanstack/store';
 
-const widthStore = new Store<'full' | 'narrow'>('full');
+const STORAGE_KEY = 'width-preference';
+
+// Load from localStorage if available
+const saved = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
+
+const widthStore = new Store<'full' | 'narrow'>(saved === 'narrow' ? 'narrow' : 'full');
+
+// Persist changes
+if (typeof window !== 'undefined') {
+    widthStore.subscribe((state) => {
+        localStorage.setItem(STORAGE_KEY, state.currentVal);
+    });
+}
 
 export { widthStore };

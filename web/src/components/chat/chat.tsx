@@ -85,7 +85,6 @@ export function Chat({ chatId }: { chatId?: string }) {
                     setIncomingMessage(finalMessage);
                 }
 
-                setIncomingMessage(null);
                 return finalMessage;
             } catch (error) {
                 setIncomingMessage(null);
@@ -119,11 +118,25 @@ export function Chat({ chatId }: { chatId?: string }) {
                 queryClient.setQueryData(['chats', 'get', chatId], context.previousMessages);
             }
         },
-        onSuccess: () => {
-            // Invalidate chat data and chat list after successful mutation
-            queryClient.invalidateQueries({
-                queryKey: ['chats', 'get', chatId],
+        onSuccess: (finalMessage) => {
+            // Optimistically update the cache with the final message to prevent flicker
+            queryClient.setQueryData(['chats', 'get', chatId], (old: any) => {
+                if (!old) return [];
+
+                // Add the final assistant message to the cache
+                return [
+                    ...old,
+                    {
+                        role: 'assistant',
+                        content: JSON.stringify(finalMessage.content),
+                    },
+                ];
             });
+
+            // Clear the incoming message immediately since we now have the final message in cache
+            setIncomingMessage(null);
+
+            // Invalidate the chat list
             queryClient.invalidateQueries({
                 queryKey: ['chats'],
             });

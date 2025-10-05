@@ -41,6 +41,7 @@ async function handler({ request }: { request: Request }) {
                         system: prompt,
                         messages,
                         schema: responseSchema,
+                        temperature: 1.1,
                     });
 
                     let receivedMessage = false;

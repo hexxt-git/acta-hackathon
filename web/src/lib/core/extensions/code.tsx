@@ -1,48 +1,58 @@
 import { z } from 'zod';
 import { Extension } from '../types/extensions';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { useEffect, useId, useState } from 'react';
 import { FileText, Copy, Download, Check } from 'lucide-react';
+import { Markdown } from '@/components/ui/markdown';
 
-const draftSchema = z.object({
-    title: z.string(),
-    body: z.string(),
+const codeSchema = z.object({
+    filename: z.string(),
+    language: z.string(),
+    code: z.string(),
 });
 
-const draftRenderer = ({ title: initialTitle, body: initialBody }: Partial<z.infer<typeof draftSchema>>) => {
-    const [title, setTitle] = useState(initialTitle);
-    const [body, setBody] = useState(initialBody);
+const codeRenderer = ({
+    filename: initialFilename,
+    language: initialLanguage,
+    code: initialCode,
+}: Partial<z.infer<typeof codeSchema>>) => {
+    const [filename, setFilename] = useState(initialFilename);
+    const [language, setLanguage] = useState(initialLanguage || 'javascript');
+    const [code, setCode] = useState(initialCode);
     const [copySuccess, setCopySuccess] = useState(false);
 
     useEffect(() => {
-        setTitle(initialTitle);
-    }, [initialTitle]);
+        setFilename(initialFilename);
+    }, [initialFilename]);
 
     useEffect(() => {
-        setBody(initialBody);
-    }, [initialBody]);
+        setLanguage(initialLanguage || 'javascript');
+    }, [initialLanguage]);
+
+    useEffect(() => {
+        setCode(initialCode);
+    }, [initialCode]);
 
     const id = useId();
 
     const handleCopy = async () => {
         try {
-            await navigator.clipboard.writeText(body || '');
+            await navigator.clipboard.writeText(code || '');
             setCopySuccess(true);
             setTimeout(() => setCopySuccess(false), 2000);
         } catch (err) {
-            console.error('Failed to copy text:', err);
+            console.error('Failed to copy code:', err);
         }
     };
 
     const handleDownload = () => {
-        const blob = new Blob([body || ''], { type: 'text/plain' });
+        const blob = new Blob([code || ''], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${title || 'draft'}.txt`;
+        a.download = filename || 'code.txt';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -53,8 +63,8 @@ const draftRenderer = ({ title: initialTitle, body: initialBody }: Partial<z.inf
         <Card>
             <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                    <Label htmlFor={`${id}-body`}>
-                        <FileText className="size-3.5" /> {title}
+                    <Label htmlFor={`${id}-code`}>
+                        <FileText className="size-3.5" /> {filename}
                     </Label>
                     <div className="flex gap-1">
                         <Button
@@ -62,7 +72,7 @@ const draftRenderer = ({ title: initialTitle, body: initialBody }: Partial<z.inf
                             size="sm"
                             onClick={handleCopy}
                             className="h-6 w-6 p-0"
-                            title="Copy text"
+                            title="Copy code"
                         >
                             {copySuccess ? <Check className="size-3 text-green-600" /> : <Copy className="size-3" />}
                         </Button>
@@ -71,21 +81,21 @@ const draftRenderer = ({ title: initialTitle, body: initialBody }: Partial<z.inf
                             size="sm"
                             onClick={handleDownload}
                             className="h-6 w-6 p-0"
-                            title="Download text"
+                            title="Download code"
                         >
                             <Download className="size-3" />
                         </Button>
                     </div>
                 </div>
-                <Textarea id={`${id}-body`} value={body} rows={15} onChange={(e) => setBody(e.target.value)} />
+                <Markdown content={`\`\`\`${language}\n${code || ''}\n\`\`\``} />
             </div>
         </Card>
     );
 };
 
-export const draftExtension = {
-    name: 'draft',
-    prompt: 'use when you want to draft a story, document, blog post, etc. this feature is not for avoiding writing long text responses. only use it for creative works or writing that should be isolated from the rest of the conversation.',
-    schema: draftSchema,
-    renderer: draftRenderer,
-} satisfies Extension<z.infer<typeof draftSchema>>;
+export const codeExtension = {
+    name: 'code',
+    prompt: 'use when you want to display code with syntax highlighting.',
+    schema: codeSchema,
+    renderer: codeRenderer,
+} satisfies Extension<z.infer<typeof codeSchema>>;

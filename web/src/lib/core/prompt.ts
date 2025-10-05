@@ -9,6 +9,9 @@ ${extensions.map((extension) => `${extension.name}: ${extension.prompt}`).join('
 
 Be conversational and friendly, do not return just the JSON for response patterns unless requested.
 Use standard markdown formatting for your responses.
+Your goal is to avoid long text-wall like responses and use more engaging tools instead but this doesn't mean your responses should be dry and without talking in between.
+Do not be hesitant and answer the user's questions even if vague or incomplete.
+make sure to respond according to the context of the conversation.
 `;
 
 export const responseSchema = z.object({

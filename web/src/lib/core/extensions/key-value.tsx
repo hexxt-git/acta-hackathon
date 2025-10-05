@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Extension } from '../types/extensions';
 import { cn } from '@/lib/utils';
+import { Markdown } from '@/components/ui/markdown';
 
 // Color system for highlights
 const HIGHLIGHT_COLORS = {
@@ -109,9 +110,9 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
                                                 )}
                                             </div>
                                             {property.description && (
-                                                <p className="text-muted-foreground mt-1 text-xs">
-                                                    {property.description}
-                                                </p>
+                                                <div className="text-muted-foreground mt-1 text-xs">
+                                                    <Markdown content={property.description} />
+                                                </div>
                                             )}
                                         </div>
                                         <div className="overflow-hidden text-right">
@@ -123,16 +124,16 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
                                                 {Array.isArray(property.value) ? (
                                                     <div className="flex flex-wrap gap-2">
                                                         {property.value.map((value) => (
-                                                            <span
+                                                            <div
                                                                 key={value}
                                                                 className="bg-background dark:bg-muted rounded-md px-2 py-1"
                                                             >
-                                                                {value}
-                                                            </span>
+                                                                <Markdown content={value} />
+                                                            </div>
                                                         ))}
                                                     </div>
                                                 ) : (
-                                                    property.value
+                                                    <Markdown content={property.value} />
                                                 )}
                                             </span>
                                         </div>

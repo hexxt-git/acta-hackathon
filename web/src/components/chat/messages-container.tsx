@@ -12,6 +12,7 @@ interface MessagesContainerProps {
 }
 
 export function MessagesContainer({ messages, onInteract, pending }: MessagesContainerProps) {
+    console.log(messages);
     return (
         <ChatBodyErrorBoundary>
             <div className="flex h-fit min-h-full grow-1 flex-col gap-2 p-2 ps-1 pt-3">

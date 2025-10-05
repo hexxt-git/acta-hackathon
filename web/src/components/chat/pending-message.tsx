@@ -10,7 +10,7 @@ export function PendingMessage() {
         >
             <p className="text-muted-foreground text-sm">Thinking...</p>
             <motion.div
-                className="dark:via-card/40 absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                className="via-card/40 absolute inset-0 bg-gradient-to-r from-transparent to-transparent"
                 initial={{ x: '-100%' }}
                 animate={{
                     x: '100%',

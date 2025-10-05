@@ -8,6 +8,9 @@ import { comparisonExtension } from './extensions/comparison';
 import { listExtension } from './extensions/list';
 import { keyValueExtension } from './extensions/key-value';
 import { specCardExtension } from './extensions/spec-card';
+import { multiSpecCardExtension } from './extensions/multi-spec-card';
+import { messageExtension } from './extensions/message';
+import { codeExtension } from './extensions/code';
 
 export const extensions: Extension<any>[] = [
     emailExtension,
@@ -19,4 +22,7 @@ export const extensions: Extension<any>[] = [
     comparisonExtension,
     keyValueExtension,
     specCardExtension,
+    multiSpecCardExtension,
+    messageExtension,
+    codeExtension,
 ];

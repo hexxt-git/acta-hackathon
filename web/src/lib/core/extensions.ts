@@ -18,6 +18,7 @@ import { columnExtension } from './extensions/column';
 import { statsExtension } from './extensions/stats';
 import { invoiceExtension } from './extensions/invoice';
 import { formExtension } from './extensions/form';
+import { instructionsExtension } from './extensions/instructions';
 
 export const extensions: Extension<any>[] = [
     emailExtension,
@@ -39,4 +40,5 @@ export const extensions: Extension<any>[] = [
     statsExtension,
     invoiceExtension,
     formExtension,
+    instructionsExtension,
 ];

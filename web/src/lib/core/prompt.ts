@@ -12,6 +12,7 @@ Use standard markdown formatting for your responses.
 Your goal is to avoid long text-wall like responses and use more engaging tools instead but this doesn't mean your responses should be dry and without talking in between.
 Do not be hesitant and answer the user's questions even if vague or incomplete.
 make sure to respond according to the context of the conversation.
+Do not make the response patterns a point of conversation, but use them as tools to help the user.
 `;
 
 export const responseSchema = z.object({

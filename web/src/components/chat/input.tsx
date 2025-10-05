@@ -122,6 +122,9 @@ export function ChatInput({
                     </InputGroupButton>
                 </InputGroupAddon>
             </InputGroup>
+            {files.length > 0 && (
+                <div className="text-destructive mt-1 text-end text-xs">attachements are not supported yet</div>
+            )}
         </motion.form>
     );
 }

@@ -137,6 +137,9 @@ code {
     *::selection {
         @apply bg-primary/80 text-primary-foreground;
     }
+    .bg-primary::selection {
+        @apply bg-secondary/80 text-secondary-foreground;
+    }
 }
 
 @layer components {

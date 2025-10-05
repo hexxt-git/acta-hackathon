@@ -55,7 +55,7 @@ async function handler({ request }: { request: Request }) {
                 try {
                     const preResearch = await generateText({
                         model: google('gemini-2.5-flash'),
-                        system: "given the following conversation, your purpose is to do the required research to answer the user's questions. you are not supposed to give the answer but do research for the context instead to give the chatbot the best possible information, keep within 500 characters. be strictly objective",
+                        system: "given the following conversation, your purpose is to do the required research to answer the user's questions. you are not supposed to give the answer but do research for the context instead to give the chatbot the best possible information, keep within 500 characters. be strictly objective. your response will be used as a reference you may not communicate with the user or the chatbot in any way",
                         messages: [
                             {
                                 role: 'user',
@@ -86,7 +86,7 @@ async function handler({ request }: { request: Request }) {
                         },
                         system:
                             prompt +
-                            "\n\nHere is extra context to help you answer the user's question. you can use to provide realtime accurate information from the internet: " +
+                            "\n\nHere is extra context to help you answer the user's question. you can use to provide realtime accurate information from the internet only use it as a reference and not as the answer: " +
                             preResearch.text,
                         messages,
                         schema: responseSchema,

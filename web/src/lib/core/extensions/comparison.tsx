@@ -31,7 +31,7 @@ const comparisonSchema = z.object({
             annotation: z.string().optional().describe('Optional context about the comparison.'),
             type: z.enum(['barChart', 'radarChart', 'lineChart', 'pieChart']),
             comparison: z.object({
-                label: z.string().describe("the field we are comparing, e.g. 'Department A', 'Version 2', etc."),
+                label: z.string().describe('the field we are comparing'),
                 data: z.array(
                     z.object({
                         category: z
@@ -40,14 +40,8 @@ const comparisonSchema = z.object({
                         values: z
                             .array(
                                 z.object({
-                                    key: z
-                                        .string()
-                                        .describe(
-                                            'The comparison option identifier (should match an entry in options).',
-                                        ),
-                                    value: z
-                                        .number()
-                                        .describe('The numeric value for this option in the given category.'),
+                                    key: z.string(),
+                                    value: z.number(),
                                 }),
                             )
                             .describe('Each option/value pair that contributes to this comparison category.'),

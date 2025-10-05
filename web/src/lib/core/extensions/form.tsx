@@ -20,11 +20,10 @@ const formSchema = z.object({
         .array(
             z.object({
                 id: z.string(),
-                type: z.enum(['text', 'email', 'number', 'textarea', 'select', 'checkbox', 'radio', 'date', 'time']),
+                type: z.enum(['text', 'email', 'number', 'textarea', 'date']),
                 label: z.string(),
                 placeholder: z.string().optional(),
                 required: z.boolean().optional(),
-                options: z.array(z.string()).optional().describe('Options for select, radio, checkbox fields'),
                 validation: z
                     .object({
                         min: z.number().optional(),
@@ -153,77 +152,6 @@ const formRenderer = (props: Partial<z.infer<typeof formSchema>>) => {
                         />
                     </div>
                 );
-            case 'select':
-                return (
-                    <div key={field.id} className="space-y-2">
-                        <Label htmlFor={`preview-${field.id}`}>
-                            {field.label}
-                            {field.required && <span className="text-destructive ml-1">*</span>}
-                        </Label>
-                        <Select value={value} onValueChange={(val) => updateResponse(field.id, val)}>
-                            <SelectTrigger>
-                                <SelectValue placeholder={field.placeholder || 'Select an option'} />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {field.options?.map((option: string, index: number) => (
-                                    <SelectItem key={index} value={option}>
-                                        {option}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
-                );
-            case 'checkbox':
-                return (
-                    <div key={field.id} className="space-y-2">
-                        <Label>{field.label}</Label>
-                        <div className="space-y-2">
-                            {field.options?.map((option: string, index: number) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id={`preview-${field.id}-${index}`}
-                                        checked={Array.isArray(value) ? value.includes(option) : false}
-                                        onCheckedChange={(checked) => {
-                                            const currentValues = Array.isArray(value) ? value : [];
-                                            if (checked) {
-                                                updateResponse(field.id, [...currentValues, option]);
-                                            } else {
-                                                updateResponse(
-                                                    field.id,
-                                                    currentValues.filter((v) => v !== option),
-                                                );
-                                            }
-                                        }}
-                                    />
-                                    <Label htmlFor={`preview-${field.id}-${index}`}>{option}</Label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
-            case 'radio':
-                return (
-                    <div key={field.id} className="space-y-2">
-                        <Label>{field.label}</Label>
-                        <div className="space-y-2">
-                            {field.options?.map((option: string, index: number) => (
-                                <div key={index} className="flex items-center space-x-2">
-                                    <input
-                                        type="radio"
-                                        id={`preview-${field.id}-${index}`}
-                                        name={`preview-${field.id}`}
-                                        value={option}
-                                        checked={value === option}
-                                        onChange={(e) => updateResponse(field.id, e.target.value)}
-                                        className="h-4 w-4"
-                                    />
-                                    <Label htmlFor={`preview-${field.id}-${index}`}>{option}</Label>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                );
             case 'date':
                 return (
                     <div key={field.id} className="space-y-2">
@@ -234,21 +162,6 @@ const formRenderer = (props: Partial<z.infer<typeof formSchema>>) => {
                         <Input
                             id={`preview-${field.id}`}
                             type="date"
-                            value={value}
-                            onChange={(e) => updateResponse(field.id, e.target.value)}
-                        />
-                    </div>
-                );
-            case 'time':
-                return (
-                    <div key={field.id} className="space-y-2">
-                        <Label htmlFor={`preview-${field.id}`}>
-                            {field.label}
-                            {field.required && <span className="text-destructive ml-1">*</span>}
-                        </Label>
-                        <Input
-                            id={`preview-${field.id}`}
-                            type="time"
                             value={value}
                             onChange={(e) => updateResponse(field.id, e.target.value)}
                         />
@@ -357,9 +270,6 @@ const formRenderer = (props: Partial<z.infer<typeof formSchema>>) => {
                                                 <SelectItem value="email">Email</SelectItem>
                                                 <SelectItem value="number">Number</SelectItem>
                                                 <SelectItem value="textarea">Textarea</SelectItem>
-                                                <SelectItem value="select">Select</SelectItem>
-                                                <SelectItem value="checkbox">Checkbox</SelectItem>
-                                                <SelectItem value="radio">Radio</SelectItem>
                                                 <SelectItem value="date">Date</SelectItem>
                                             </SelectContent>
                                         </Select>

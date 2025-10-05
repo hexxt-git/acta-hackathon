@@ -1,6 +1,16 @@
 import { motion } from 'motion/react';
+import { useEffect, useState } from 'react';
+
+const messages = ['Researching...', 'Thinking...', 'Formatting...', 'Processing...', 'Thinking...'];
 
 export function PendingMessage() {
+    const [message, setMessage] = useState(messages[0]);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setMessage(messages[Math.floor(Math.random() * messages.length)]);
+        }, 7000);
+        return () => clearInterval(interval);
+    }, []);
     return (
         <motion.div
             className="relative w-fit overflow-hidden"
@@ -8,7 +18,7 @@ export function PendingMessage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.3 }}
         >
-            <p className="text-muted-foreground text-sm">Thinking...</p>
+            <p className="text-muted-foreground text-sm">{message}</p>
             <motion.div
                 className="via-card/40 absolute inset-0 bg-gradient-to-r from-transparent to-transparent"
                 initial={{ x: '-100%' }}

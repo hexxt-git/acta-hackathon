@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PinnedItem, PrismaClient } from '@prisma/client';
 
 export interface ChatData {
     messages: { role: 'assistant' | 'user'; content: string }[];
@@ -117,7 +117,7 @@ export async function getChatList(): Promise<ChatListItem[]> {
         include: {
             messages: {
                 orderBy: { createdAt: 'asc' },
-                take: 1,
+                take: 1, // Only get the first message
             },
             _count: {
                 select: { messages: true },
@@ -142,4 +142,27 @@ export async function getChatList(): Promise<ChatListItem[]> {
             updatedAt: chat.updatedAt,
         };
     });
+}
+
+export async function createPinnedItem(extension: string, props: any): Promise<void> {
+    await prisma.pinnedItem.create({
+        data: { extension, props },
+    });
+}
+
+export async function getPinnedItems(): Promise<PinnedItem[]> {
+    return await prisma.pinnedItem.findMany({
+        orderBy: { updatedAt: 'desc' },
+    });
+}
+
+export async function deletePinnedItem(id: string): Promise<boolean> {
+    try {
+        await prisma.pinnedItem.delete({
+            where: { id },
+        });
+        return true;
+    } catch (error) {
+        return false;
+    }
 }

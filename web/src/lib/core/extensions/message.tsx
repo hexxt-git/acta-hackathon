@@ -2,6 +2,11 @@ import { z } from 'zod';
 import { Extension } from '../types/extensions';
 import { cn } from '@/lib/utils';
 import { Markdown } from '@/components/ui/markdown';
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { trpcClient } from '@/integrations/tanstack-query/root-provider';
+import { Button } from '@/components/ui/button';
+import { Pin, Check, Loader2, Copy } from 'lucide-react';
 
 const messageSchema = z.object({
     type: z.enum(['alert', 'warning', 'fun-fact', 'example', 'summary', 'tip', 'note', 'reminder', 'joke']),
@@ -83,12 +88,66 @@ const messageConfig = {
 
 const messageRenderer = ({ message, type = 'alert' }: Partial<z.infer<typeof messageSchema>>) => {
     const config = messageConfig[type] || messageConfig.default;
+    const [isPinned, setIsPinned] = useState(false);
+    const [copySuccess, setCopySuccess] = useState(false);
+    const queryClient = useQueryClient();
+
+    const pinMutation = useMutation({
+        mutationFn: async () => {
+            await trpcClient.pinnedItems.create.mutate({
+                extension: 'message',
+                props: { message, type },
+            });
+        },
+        onSuccess: () => {
+            setIsPinned(true);
+            setTimeout(() => setIsPinned(false), 2000);
+        },
+        onSettled: () => {
+            // invalidate pinned items list
+            queryClient.invalidateQueries({ queryKey: ['pinnedItems'] });
+        },
+    });
+
+    const handlePin = () => {
+        pinMutation.mutate();
+    };
+
+    const handleCopy = async () => {
+        try {
+            await navigator.clipboard.writeText(message || '');
+            setCopySuccess(true);
+            setTimeout(() => setCopySuccess(false), 2000);
+        } catch (err) {
+            console.error('Failed to copy text:', err);
+        }
+    };
 
     return (
         <div className={cn('w-fit rounded-l-xs rounded-r-lg border-l-2 p-2 pe-4', config.bgColor, config.borderColor)}>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center justify-between">
                 <div className={cn('text-base font-semibold', config.color)}>
                     {config.emoji} {config.title}
+                </div>
+                <div className="flex gap-1">
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={handlePin}
+                        className="h-6 w-6 p-0"
+                        title={isPinned ? 'Unpin message' : 'Pin message'}
+                    >
+                        {pinMutation.isPending ? (
+                            <Loader2 className="size-3 animate-spin" />
+                        ) : isPinned ? (
+                            <Check className="size-3 text-green-600" />
+                        ) : (
+                            <Pin className="size-3" />
+                        )}
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={handleCopy} className="h-6 w-6 p-0" title="Copy message">
+                        {copySuccess ? <Check className="size-3 text-green-600" /> : <Copy className="size-3" />}
+                    </Button>
                 </div>
             </div>
 

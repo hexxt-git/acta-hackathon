@@ -5,7 +5,7 @@
 [ ] optimize ai token usage
 
 -- core features --
-[ ] chat UI
+[x] chat UI
 [x] streaming responses
 [x] extensions infrastructure
 [ ] saving todo lists on the side
@@ -17,9 +17,10 @@
 
 -- fixes --
 [ ] backend errors displayed to user
-[ ] use tools instead of an output schema??
+[ ] use tool calls instead of an output schema??
 
 -- extension wishlist --
 [ ] calculator, graphing and scientific
 [ ] weather, news
 [ ] unit converter / time zone converter
+[ ] games

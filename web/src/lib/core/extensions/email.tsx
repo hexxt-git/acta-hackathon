@@ -6,9 +6,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card } from '@/components/ui/card';
 import { useEffect, useId, useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronUpIcon, Pin, Check, Loader2 } from 'lucide-react';
 import { TagInput, TagItem } from '@/components/ui/tag-input';
 import { AnimatePresence, motion } from 'motion/react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { trpcClient } from '@/integrations/tanstack-query/root-provider';
 
 const emailSchema = z.object({
     subject: z.string(),
@@ -37,8 +39,37 @@ const emailRenderer = ({
     const [cc, setCc] = useState<TagItem[]>(initialCc?.map((cc) => ({ id: cc, text: cc })) || []);
     const [bcc, setBcc] = useState<TagItem[]>(initialBcc?.map((bcc) => ({ id: bcc, text: bcc })) || []);
     const [open, setOpen] = useState(false);
+    const [isPinned, setIsPinned] = useState(false);
 
     const id = useId();
+    const queryClient = useQueryClient();
+
+    const pinMutation = useMutation({
+        mutationFn: async () => {
+            await trpcClient.pinnedItems.create.mutate({
+                extension: 'email',
+                props: {
+                    subject,
+                    body,
+                    recipients: recipients.map((r) => r.text),
+                    cc: cc.map((c) => c.text),
+                    bcc: bcc.map((b) => b.text),
+                },
+            });
+        },
+        onSuccess: () => {
+            setIsPinned(true);
+            setTimeout(() => setIsPinned(false), 2000);
+        },
+        onSettled: () => {
+            // invalidate pinned items list
+            queryClient.invalidateQueries({ queryKey: ['pinnedItems'] });
+        },
+    });
+
+    const handlePin = () => {
+        pinMutation.mutate();
+    };
 
     useEffect(() => {
         setSubject(initialSubject);
@@ -91,13 +122,30 @@ const emailRenderer = ({
     return (
         <Card>
             <div className="space-y-2">
-                <Label htmlFor={`${id}-subject`}>Subject</Label>
-                <div className="flex gap-2">
-                    <Input id={`${id}-subject`} value={subject} onChange={(e) => setSubject(e.target.value)} />
-                    <Button variant="ghost" onClick={() => setOpen(!open)}>
-                        {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                    </Button>
+                <div className="flex items-center justify-between">
+                    <Label htmlFor={`${id}-subject`}>Subject</Label>
+                    <div className="flex gap-1">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={handlePin}
+                            className="h-6 w-6 p-0"
+                            title={isPinned ? 'Unpin email' : 'Pin email'}
+                        >
+                            {pinMutation.isPending ? (
+                                <Loader2 className="size-3 animate-spin" />
+                            ) : isPinned ? (
+                                <Check className="size-3 text-green-600" />
+                            ) : (
+                                <Pin className="size-3" />
+                            )}
+                        </Button>
+                        <Button variant="ghost" onClick={() => setOpen(!open)}>
+                            {open ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                        </Button>
+                    </div>
                 </div>
+                <Input id={`${id}-subject`} value={subject} onChange={(e) => setSubject(e.target.value)} />
             </div>
             <AnimatePresence>
                 {open && (

@@ -11,6 +11,9 @@ import { specCardExtension } from './extensions/spec-card';
 import { multiSpecCardExtension } from './extensions/multi-spec-card';
 import { messageExtension } from './extensions/message';
 import { codeExtension } from './extensions/code';
+import { clickerGameExtension } from './extensions/clicker-game';
+import { numberGuessingGameExtension } from './extensions/number-guessing-game';
+import { coinFlipGameExtension } from './extensions/coin-flip-game';
 
 export const extensions: Extension<any>[] = [
     emailExtension,
@@ -25,4 +28,7 @@ export const extensions: Extension<any>[] = [
     multiSpecCardExtension,
     messageExtension,
     codeExtension,
+    clickerGameExtension,
+    numberGuessingGameExtension,
+    coinFlipGameExtension,
 ];

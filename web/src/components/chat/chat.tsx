@@ -161,6 +161,30 @@ export function Chat({ chatId }: { chatId?: string }) {
                 }
                 break;
             }
+            case 'clicker-game-ended': {
+                const [winner] = props as [string?];
+                if (typeof winner === 'string') {
+                    if (winner === 'player') {
+                        handleSubmit('seems like I won this game!');
+                    } else if (winner === 'ai') {
+                        handleSubmit('seems like you won this game!');
+                    } else {
+                        handleSubmit("It's a tie!");
+                    }
+                }
+                break;
+            }
+            case 'guessing-game-ended': {
+                const [result, attempts] = props as [string?, number?];
+                if (typeof attempts === 'number') {
+                    if (result === 'won') {
+                        handleSubmit(`seems like I won! It took me ${attempts} attempts.`);
+                    } else {
+                        handleSubmit(`seems like I lost this time.`);
+                    }
+                }
+                break;
+            }
             default:
                 break;
         }

@@ -14,7 +14,7 @@ export function SidebarPanel() {
             animate={{
                 opacity: sidebar === 'open' ? 1 : 0,
                 width: sidebar === 'open' ? '280px' : '0px',
-                padding: sidebar === 'open' ? '0.5rem' : '0px',
+                padding: sidebar === 'open' ? '0.15rem' : '0px',
             }}
             className={cn(
                 'bg-card overflow-hidden rounded-md max-md:hidden dark:border-r',

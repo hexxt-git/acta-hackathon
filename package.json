@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "verify": "node verify-submission.js",
-    "start": "echo 'Add your start command here!'",
-    "test": "echo 'Add your test command here!'"
+    "start": "cd web && npm run dev",
+    "build": "cd web && npm run build",
+    "test": "cd web && npm run test"
   },
   "keywords": [
     "hackathon",

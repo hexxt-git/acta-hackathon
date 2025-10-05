@@ -177,6 +177,7 @@ const numberGuessingGameRenderer = ({
 
 export const numberGuessingGameExtension = {
     name: 'number-guessing-game',
+    type: 'tool',
     prompt: 'use when you want to create a number guessing game. its a simple game where the player has to guess a secret number between 1-10 (easy), 1-50 (medium), or 1-100 (hard). they have 7 attempts and get feedback if their guess is too high or too low. initiate when the user agrees to play.',
     schema: numberGuessingGameSchema,
     renderer: numberGuessingGameRenderer,

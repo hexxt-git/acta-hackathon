@@ -3,7 +3,6 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { Settings } from 'lucide-react';
 import { iconMap } from './icons';
-import { Badge } from '@/components/ui/badge';
 
 // Single spec card schema (reused from spec-card.tsx)
 export const singleSpecCardSchema = z.object({
@@ -80,13 +79,7 @@ export interface SpecCardProps {
 }
 
 // Single card renderer (reused from spec-card.tsx with minor adjustments)
-export const SpecCard = ({
-    title,
-    category,
-    image = 'https://placehold.co/600x400',
-    imageAlt,
-    specs,
-}: SpecCardProps) => {
+export const SpecCard = ({ title, category, image, imageAlt, specs }: SpecCardProps) => {
     if (!specs || specs.length === 0) {
         return (
             <div className="border-muted-foreground/25 rounded-lg border border-dashed p-8 text-center">

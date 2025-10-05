@@ -122,6 +122,7 @@ const todoRenderer = ({ name, items }: Partial<z.infer<typeof todoSchema>>) => {
 
 export const todoExtension = {
     name: 'todo',
+    type: 'presentation',
     prompt: 'use when you want to create a todo list',
     schema: todoSchema,
     renderer: todoRenderer,

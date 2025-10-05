@@ -11,6 +11,13 @@ const config: StorybookConfig = {
         const { default: tailwindcss } = await import('@tailwindcss/vite');
         config.plugins = config.plugins || [];
         config.plugins.push(tailwindcss());
+
+        // Mock the TRPC client for Storybook
+        config.define = {
+            ...config.define,
+            'process.env.NODE_ENV': JSON.stringify('development'),
+        };
+
         return config;
     },
 };

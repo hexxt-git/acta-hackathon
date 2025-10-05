@@ -1,4 +1,5 @@
 import { Store } from '@tanstack/store';
+import { sidebarStore } from './sidebar';
 
 const STORAGE_KEY = 'width-preference';
 
@@ -11,6 +12,9 @@ const widthStore = new Store<'full' | 'narrow'>(saved === 'narrow' ? 'narrow' : 
 if (typeof window !== 'undefined') {
     widthStore.subscribe((state) => {
         localStorage.setItem(STORAGE_KEY, state.currentVal);
+        if (state.currentVal === 'narrow') {
+            sidebarStore.setState('closed');
+        }
     });
 }
 

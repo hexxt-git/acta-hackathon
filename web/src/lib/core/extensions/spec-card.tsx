@@ -78,6 +78,7 @@ const specCardRenderer = ({
 };
 
 export const specCardExtension = {
+    type: 'presentation' as const,
     name: 'spec-card',
     prompt: 'use when displaying specifications, product details, or feature comparisons. ideal for phones, laptops, cars, houses, countries, etc. or any product with measurable attributes that benefit from visual icons and organized display.',
     schema: specCardSchema,

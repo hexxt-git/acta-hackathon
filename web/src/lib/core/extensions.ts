@@ -14,6 +14,10 @@ import { codeExtension } from './extensions/code';
 import { clickerGameExtension } from './extensions/clicker-game';
 import { numberGuessingGameExtension } from './extensions/number-guessing-game';
 import { coinFlipGameExtension } from './extensions/coin-flip-game';
+import { columnExtension } from './extensions/column';
+import { statsExtension } from './extensions/stats';
+import { invoiceExtension } from './extensions/invoice';
+import { formExtension } from './extensions/form';
 
 export const extensions: Extension<any>[] = [
     emailExtension,
@@ -31,4 +35,8 @@ export const extensions: Extension<any>[] = [
     clickerGameExtension,
     numberGuessingGameExtension,
     coinFlipGameExtension,
+    columnExtension,
+    statsExtension,
+    invoiceExtension,
+    formExtension,
 ];

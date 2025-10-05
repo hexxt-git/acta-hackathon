@@ -163,6 +163,7 @@ const clickerGameRenderer = ({
 };
 
 export const clickerGameExtension = {
+    type: 'tool' as const,
     name: 'clicker-game',
     prompt: 'use when you want to create a clicker game. its a mini-game where the player and the ai have to click as fast as they can and the one with the most clicks wins it should be fun and engaging, initiate when the user agrees to play. do 10 seconds by default',
     schema: clickerGameSchema,

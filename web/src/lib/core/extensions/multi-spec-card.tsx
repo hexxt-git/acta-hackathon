@@ -9,13 +9,7 @@ const multiSpecCardSchema = z.object({
 });
 
 // Single card renderer (reused from spec-card.tsx with minor adjustments)
-const singleCardRenderer = ({
-    title,
-    category,
-    image = 'https://placehold.co/600x400',
-    imageAlt,
-    specs,
-}: z.infer<typeof singleSpecCardSchema>) => {
+const singleCardRenderer = ({ title, category, image, imageAlt, specs }: z.infer<typeof singleSpecCardSchema>) => {
     return <SpecCard title={title} category={category} image={image} imageAlt={imageAlt} specs={specs} />;
 };
 
@@ -47,6 +41,7 @@ const multiSpecCardRenderer = ({ cards, title }: Partial<z.infer<typeof multiSpe
 };
 
 export const multiSpecCardExtension = {
+    type: 'presentation' as const,
     name: 'multi-spec-card',
     prompt: 'use when displaying multiple product specifications for comparison. ideal for comparing phones, laptops, cars, or any products side-by-side with their specifications, images, and feature highlights.',
     schema: multiSpecCardSchema,

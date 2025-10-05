@@ -124,6 +124,7 @@ const draftRenderer = ({ title: initialTitle, body: initialBody }: Partial<z.inf
 };
 
 export const draftExtension = {
+    type: 'tool' as const,
     name: 'draft',
     prompt: 'use when you want to draft a story, document, blog post, etc. this feature is not for avoiding writing long text responses. only use it for creative works or writing that should be isolated from the rest of the conversation.',
     schema: draftSchema,

@@ -92,10 +92,10 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
                                         'bg-background dark:bg-input/30 dark:border-border rounded-md border border-transparent p-3',
                                     )}
                                 >
-                                    <div className="grid grid-cols-[auto_auto] items-center justify-between gap-4">
-                                        <div className="min-w-0 overflow-hidden">
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-foreground text-sm font-medium">
+                                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                        <div className="min-w-0">
+                                            <div className="flex flex-wrap items-center gap-2">
+                                                <span className="text-foreground my-1 text-sm font-medium">
                                                     {property.key}
                                                 </span>
                                                 {property.highlight && (
@@ -115,9 +115,9 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="overflow-hidden text-right">
-                                            <span
-                                                className={`truncate text-sm ${
+                                        <div className="sm:text-right">
+                                            <div
+                                                className={`text-sm break-words ${
                                                     property.highlight ? 'font-semibold' : 'text-foreground'
                                                 } ${property.highlight ? getHighlightStyles(property.highlight.color).text : ''}`}
                                             >
@@ -135,7 +135,7 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
                                                 ) : (
                                                     <Markdown content={property.value} />
                                                 )}
-                                            </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -149,8 +149,9 @@ const keyValueRenderer = ({ title, groups }: Partial<z.infer<typeof keyValueSche
 };
 
 export const keyValueExtension = {
+    type: 'presentation' as const,
     name: 'key-value',
-    prompt: 'use when you want to display key-value pairs or properties in a structured format. useful for specifications, attributes, settings, or any structured data that consists of labels and values.',
+    prompt: 'use when you want to display key-value pairs or properties in a structured format. useful for specifications, attributes, settings, or any structured data that consists of labels and values. do not overuse',
     schema: keyValueSchema,
     renderer: keyValueRenderer,
 } satisfies Extension<z.infer<typeof keyValueSchema>>;

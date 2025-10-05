@@ -142,6 +142,7 @@ export function Chat({ chatId }: { chatId?: string }) {
             });
         },
     });
+    console.log(messages);
 
     const handleSubmit = (message: string) => {
         // Trigger the mutation with the user message content

@@ -146,6 +146,7 @@ const reminderRenderer = ({
 
 export const reminderExtension = {
     name: 'reminder',
+    type: 'tool',
     prompt: 'use when you want to create a reminder or schedule something.',
     schema: reminderSchema,
     renderer: reminderRenderer,

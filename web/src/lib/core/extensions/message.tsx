@@ -159,6 +159,7 @@ const messageRenderer = ({ message, type = 'alert' }: Partial<z.infer<typeof mes
 };
 
 export const messageExtension = {
+    type: 'presentation' as const,
     name: 'message',
     prompt: 'use when you want to convey something to the user. do NOT use too much or use when not actually conveying something but just chatting. do NOT use info type when just chatting.',
     schema: messageSchema,

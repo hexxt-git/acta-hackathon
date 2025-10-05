@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { widthStore } from '@/stores/width';
 import { useStore } from '@tanstack/react-store';
+import { Button } from '../ui/button';
 
 function formatTimestamp(timestamp: Date | string): string {
     const date = new Date(timestamp);
@@ -138,13 +139,10 @@ export function Sidebar() {
             {/* Header */}
             <div className="flex items-center justify-between px-2">
                 <h2 className="text-foreground text-sm font-semibold">Chat History</h2>
-                <button
-                    onClick={handleNewChat}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-1 rounded-md px-2 py-1 text-xs font-medium transition-colors"
-                >
-                    <Plus className="size-3" />
+                <Button onClick={handleNewChat} size="sm" className="h-fit px-2 py-0.5">
+                    <Plus className="size-3" strokeWidth={2.5} />
                     New
-                </button>
+                </Button>
             </div>
 
             {/* Chat List */}
@@ -221,7 +219,7 @@ export function Sidebar() {
             </div>
 
             {/* Pinned Items Section */}
-            <h3 className="text-muted-foreground text-xs font-medium">Pinned Items</h3>
+            <h3 className="font-medium">Pinned Items</h3>
 
             {/* Pinned Items Loading */}
             {!pinnedItems && (

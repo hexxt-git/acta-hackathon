@@ -86,7 +86,7 @@ const coinFlipGameRenderer = ({
                 {gameState === 'flipping' && (
                     <div className="text-center">
                         <div className="mb-4 flex justify-center">
-                            <Loader2 className="size-16 animate-spin text-yellow-500" />
+                            <Loader2 className="size-16 animate-spin" />
                         </div>
                         <div className="text-muted-foreground text-sm">Flipping coin...</div>
                     </div>
@@ -167,6 +167,7 @@ const coinFlipGameRenderer = ({
 };
 
 export const coinFlipGameExtension = {
+    type: 'tool' as const,
     name: 'coin-flip-game',
     prompt: 'use when you want to create a coin flip game. its a simple guessing game where the player predicts heads or tails, and the coin flips to show the result. play multiple rounds and track accuracy. initiate when the user agrees to play.',
     schema: coinFlipGameSchema,

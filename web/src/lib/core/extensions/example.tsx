@@ -10,6 +10,7 @@ const exampleRenderer = ({ example }: Partial<z.infer<typeof exampleSchema>>) =>
 };
 
 export const exampleExtension = {
+    type: 'presentation' as const,
     name: 'example',
     prompt: 'use when you ....',
     schema: exampleSchema,

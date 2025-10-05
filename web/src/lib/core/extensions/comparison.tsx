@@ -279,6 +279,7 @@ function renderChart({ chartType, chartData, pieData, options, optionColors }: R
 }
 
 export const comparisonExtension = {
+    type: 'presentation' as const,
     name: 'comparison',
     prompt: 'use when you are comparing multiple options or choices. make sure to use a variation of charts and use the appropriate chart for the data.',
     schema: comparisonSchema,

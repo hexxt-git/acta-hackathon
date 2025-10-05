@@ -129,15 +129,15 @@ const emailRenderer = ({
                             variant="ghost"
                             size="sm"
                             onClick={handlePin}
-                            className="h-6 w-6 p-0"
+                            className="h-8 w-8 p-0"
                             title={isPinned ? 'Unpin email' : 'Pin email'}
                         >
                             {pinMutation.isPending ? (
-                                <Loader2 className="size-3 animate-spin" />
+                                <Loader2 className="size-4 animate-spin" />
                             ) : isPinned ? (
-                                <Check className="size-3 text-green-600" />
+                                <Check className="size-4 text-green-600" />
                             ) : (
-                                <Pin className="size-3" />
+                                <Pin className="size-4" />
                             )}
                         </Button>
                         <Button variant="ghost" onClick={() => setOpen(!open)}>
@@ -199,6 +199,7 @@ const emailRenderer = ({
 };
 
 export const emailExtension = {
+    type: 'tool' as const,
     name: 'email',
     prompt: "use when you want to draft an email. if you don't have some of the information just fill it out with a placeholder.",
     schema: emailSchema,

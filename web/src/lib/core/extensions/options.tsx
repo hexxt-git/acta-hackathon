@@ -28,6 +28,7 @@ const optionsRenderer = ({
 
 export const optionsExtension = {
     name: 'options',
+    type: 'presentation',
     prompt: "use when you want to give the user a list of options to choose from. use this when you are giving the user a choice. or are in a situation where you can't continue without the user's choice. make sure to include a text paragraph above the options to explain the options and why you are giving them to the user.",
     schema: optionsSchema,
     renderer: optionsRenderer,

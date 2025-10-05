@@ -71,7 +71,7 @@ const codeRenderer = ({
                             variant="ghost"
                             size="sm"
                             onClick={handleCopy}
-                            className="h-6 w-6 p-0"
+                            className="h-8 w-8 p-0"
                             title="Copy code"
                         >
                             {copySuccess ? <Check className="size-3 text-green-600" /> : <Copy className="size-3" />}
@@ -80,7 +80,7 @@ const codeRenderer = ({
                             variant="ghost"
                             size="sm"
                             onClick={handleDownload}
-                            className="h-6 w-6 p-0"
+                            className="h-8 w-8 p-0"
                             title="Download code"
                         >
                             <Download className="size-3" />
@@ -94,6 +94,7 @@ const codeRenderer = ({
 };
 
 export const codeExtension = {
+    type: 'presentation' as const,
     name: 'code',
     prompt: 'use when you want to display code with syntax highlighting.',
     schema: codeSchema,

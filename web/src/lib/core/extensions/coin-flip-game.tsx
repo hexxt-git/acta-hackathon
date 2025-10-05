@@ -39,16 +39,13 @@ const coinFlipGameRenderer = ({
             }
 
             setGameState('result');
-
-            if (onInteract) {
-                onInteract('coin-flipped', [choice, result, choice === result]);
-            }
         }, 500);
     };
 
     const nextRound = () => {
         if (currentRound + 1 >= rounds) {
             // Game complete
+            if (onInteract) onInteract('coin-flip-game-ended', [wins, rounds, Math.round((wins / rounds) * 100)]);
             return;
         }
         setCurrentRound((prev) => prev + 1);
@@ -138,9 +135,15 @@ const coinFlipGameRenderer = ({
                     </div>
                 )}
 
-                {gameState === 'result' && !isGameComplete && (
+                {gameState === 'result' && currentRound + 1 < rounds && (
                     <Button onClick={nextRound} className="w-full rounded-2xl!">
                         Next Round ({currentRound + 1}/{rounds})
+                    </Button>
+                )}
+
+                {gameState === 'result' && currentRound + 1 === rounds && (
+                    <Button onClick={nextRound} className="w-full rounded-2xl!">
+                        Finish Game
                     </Button>
                 )}
 

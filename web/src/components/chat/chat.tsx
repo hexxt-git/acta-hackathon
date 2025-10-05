@@ -185,6 +185,13 @@ export function Chat({ chatId }: { chatId?: string }) {
                 }
                 break;
             }
+            case 'coin-flip-game-ended': {
+                const [wins, rounds, accuracy] = props as [number?, number?, number?];
+                if (typeof wins === 'number' && typeof rounds === 'number' && typeof accuracy === 'number') {
+                    handleSubmit(`I got ${wins} out of ${rounds} correct! (${accuracy}% accuracy)`);
+                }
+                break;
+            }
             default:
                 break;
         }

@@ -1,4 +1,4 @@
-import { Store } from '@tanstack/store';
+import { Store } from '@tanstack/react-store';
 import { sidebarStore } from './sidebar';
 
 const STORAGE_KEY = 'width-preference';

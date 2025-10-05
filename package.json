@@ -18,5 +18,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/actastudios/global-hackathon-v1"
+  },
+  "dependencies": {
+    "@tanstack/store": "^0.7.7"
   }
 }

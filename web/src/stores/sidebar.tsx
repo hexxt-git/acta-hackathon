@@ -1,4 +1,4 @@
-import { Store } from '@tanstack/store';
+import { Store } from '@tanstack/react-store';
 
 const sidebarStore = new Store<'open' | 'closed'>('open');
 

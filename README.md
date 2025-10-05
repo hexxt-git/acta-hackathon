@@ -1,3 +1,10 @@
+# Submission for ACTA Global Hackathon
+
+https://dynamic-llm.netlify.app/
+it solved the issue of: Chatbots throw walls of text at the user and that is not an intuitive way to interact with a computer.
+
+it solves this by implementing a system of extensions, some cosmetic and some are actual tools that the user can use to interact and do things.
+
 # 🚀 ACTA Global Hackathon
 
 **24 hours to build something impressive.**
@@ -21,12 +28,15 @@
 **Option 2: Choose one of these problem statements:**
 
 ### 1. Memory Keeper for Grandparents
+
 Interactive AI conversations that capture grandparents' life memories and turn them into blog posts for family members. Think Duolingo but for preserving family stories and wisdom.
 
 ### 2. Graph-Based Learning System
+
 Transform linear course content (like [MIT's Statistics course](https://ocw.mit.edu/courses/18-05-introduction-to-probability-and-statistics-spring-2022/)) into an interactive graph-based learning experience. Organize concepts as nodes/connections to match how the brain actually learns - accelerating comprehension through visualization and non-linear exploration.
 
 ### 3. Agent Orchestration Layer
+
 Build the n8n for AI agents - an orchestration platform for vertical agents to create AI-native companies. Solve context engineering and enable swarm intelligence across agent networks.
 
 **Note**: These are extensive problems - MVPs are perfectly fine and expected!
@@ -63,6 +73,7 @@ git push
 **Submit at**: [https://forms.acta.so/r/wMobdM](https://forms.acta.so/r/wMobdM)
 
 **You need**:
+
 1. Public GitHub repo URL
 2. 60-second demo video (Loom/YouTube - must be public)
 3. Live demo URL (deployed app)
@@ -76,6 +87,7 @@ node verify-submission.js
 ```
 
 Check:
+
 - [ ] GitHub repo is public
 - [ ] 60s video is public and accessible
 - [ ] Live demo works in incognito window
@@ -87,15 +99,19 @@ Check:
 **Top 25 submissions** will be ranked 1-10 on each criterion:
 
 ### Craft (1-10)
+
 Quality of execution, code quality, attention to detail, polish. Does it work smoothly? Is it well-built? A simple feature done exceptionally well scores higher than complex features done poorly.
 
 ### Novelty (1-10)
+
 Originality and innovation. Is this a fresh take? Does it approach the problem differently? Bonus points for ideas that make judges think "why doesn't this exist yet?"
 
 ### Utility (1-10)
+
 Practical usefulness and real-world value. Would people actually use this? Does it solve a genuine problem? Could this become a real product?
 
 ### Taste (1-10)
+
 Design sensibility, user experience, aesthetic choices. Is it intuitive? Does it feel good to use? Great taste shows in the details - from UI design to interaction patterns to copy writing.
 
 **Final scores** are calculated by summing all four dimensions. Highest total wins.

@@ -9,7 +9,7 @@ interface UserMessageProps {
 export function UserMessage({ message, index }: UserMessageProps) {
     return (
         <motion.div
-            className="bg-primary text-primary-foreground w-fit self-end rounded-md px-2 py-1 text-sm shadow-sm"
+            className="bg-primary text-primary-foreground w-fit max-w-[90%] self-end rounded-md px-2 py-1 text-sm shadow-sm"
             initial={{ opacity: 0, x: 10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.2, delay: 0.1, ease: 'easeOut' }}

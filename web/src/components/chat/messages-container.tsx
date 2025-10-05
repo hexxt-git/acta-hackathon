@@ -3,6 +3,7 @@ import { UserMessage } from './user-message';
 import { AssistantMessage } from './assistant-message';
 import { ChatBodyErrorBoundary } from './error-boundaries';
 import { PendingMessage } from './pending-message';
+import { motion } from 'motion/react';
 
 interface MessagesContainerProps {
     messages: Message[];
@@ -15,9 +16,14 @@ export function MessagesContainer({ messages, onInteract, pending }: MessagesCon
         <ChatBodyErrorBoundary>
             <div className="flex h-fit min-h-full grow-1 flex-col gap-2 p-2 ps-1 pt-3">
                 {messages.length === 0 && (
-                    <p className="text-muted-foreground flex h-full grow-1 items-center justify-center text-center text-sm">
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className="text-muted-foreground flex h-full grow-1 items-center justify-center text-center text-sm"
+                    >
                         No messages yet
-                    </p>
+                    </motion.p>
                 )}
                 {messages.map((message, index) =>
                     message.role === 'user' ? (

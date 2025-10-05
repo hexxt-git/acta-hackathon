@@ -16,7 +16,7 @@ const optionsRenderer = ({
             {options?.map((option) => (
                 <button
                     key={option}
-                    className="bg-background dark:bg-input/30 dark:border-border hover:bg-background/80 cursor-pointer rounded-md border border-transparent px-2 py-1 text-sm/[1.2] transition-colors"
+                    className="bg-background dark:bg-input/30 dark:border-border hover:bg-background/80 cursor-pointer rounded-md border border-transparent px-2 py-1 text-start text-sm/[1.2] transition-colors"
                     onClick={() => onInteract('select', [option])}
                 >
                     {option}

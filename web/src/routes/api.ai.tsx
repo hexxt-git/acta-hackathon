@@ -4,20 +4,12 @@ import z from 'zod';
 import { streamObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { prompt, responseSchema } from '../lib/core/prompt';
+import { addUserMessage, addAssistantMessage, getChatMessages } from '../lib/database';
 
 const inputSchema = z.object({
     chatId: z.string(),
     message: z.string(),
 });
-
-export const database: Record<
-    string,
-    {
-        messages: { role: 'assistant' | 'user'; content: string }[];
-        createdAt: Date;
-        updatedAt: Date;
-    }
-> = {};
 
 async function handler({ request }: { request: Request }) {
     const validationResult = await validateRequestBody(request, inputSchema);
@@ -27,31 +19,18 @@ async function handler({ request }: { request: Request }) {
     }
 
     const { chatId, message } = validationResult.data;
-    const now = new Date();
 
-    // Initialize chat if it doesn't exist
-    if (!database[chatId]) {
-        database[chatId] = {
-            messages: [],
-            createdAt: now,
-            updatedAt: now,
-        };
-    }
+    // Add the user message to the database
+    await addUserMessage(chatId, message);
 
-    // Add the user message
-    database[chatId].messages.push({ role: 'user' as const, content: message });
-    database[chatId].updatedAt = now;
-
-    const messages = database[chatId].messages;
-
-    console.log(messages);
+    const messages = await getChatMessages(chatId);
 
     return new Response(
         new ReadableStream({
             async start(controller) {
                 try {
                     const result = streamObject({
-                        model: google('gemini-2.5-flash'),
+                        model: google('gemini-2.5-pro'),
                         providerOptions: {
                             google: {
                                 thinkingConfig: {
@@ -79,11 +58,7 @@ async function handler({ request }: { request: Request }) {
 
                     // Store the assistant's response in the database
                     if (fullResponse) {
-                        database[chatId].messages.push({
-                            role: 'assistant' as const,
-                            content: JSON.stringify(fullResponse),
-                        });
-                        database[chatId].updatedAt = new Date();
+                        await addAssistantMessage(chatId, JSON.stringify(fullResponse));
                     }
 
                     controller.close();

@@ -5,7 +5,7 @@ import { widthStore } from '@/stores/width';
 import { sidebarStore } from '@/stores/sidebar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
-import { Plus, Sidebar } from 'lucide-react';
+import { ChevronDown, Plus, Sidebar } from 'lucide-react';
 import { ThemeToggle } from '@/components/ui/theme-toggle';
 import { WidthToggle } from '@/components/ui/width-toggle';
 import { Sidebar as SidebarContent } from './sidebar.tsx';
@@ -27,24 +27,6 @@ export function TopBar({ onSidebarToggle }: TopBarProps) {
             transition={{ duration: 0.15, ease: 'easeOut' }}
         >
             <div className="flex w-full items-center gap-1">
-                <motion.div className={cn(width === 'narrow' && 'fixed top-4 left-4')}>
-                    <Popover
-                        open={sidebar === 'open'}
-                        onOpenChange={(open) => !open && width === 'narrow' && sidebarStore.setState('closed')}
-                    >
-                        <PopoverTrigger asChild>
-                            <Button variant="ghost" size="icon" onClick={onSidebarToggle}>
-                                <Sidebar className="size-4" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent
-                            align="start"
-                            className={cn('bg-card shadow-none', width === 'full' && 'md:hidden')}
-                        >
-                            <SidebarContent />
-                        </PopoverContent>
-                    </Popover>
-                </motion.div>
                 <h1
                     className={cn(
                         'flex items-center gap-2 p-2 font-bold',
@@ -53,6 +35,23 @@ export function TopBar({ onSidebarToggle }: TopBarProps) {
                             : 'w-full translate-y-1 rounded-t-md border-x border-t pb-3',
                     )}
                 >
+                    <Popover
+                        open={sidebar === 'open'}
+                        onOpenChange={(open) => !open && width === 'narrow' && sidebarStore.setState('closed')}
+                    >
+                        <PopoverTrigger asChild>
+                            <Button variant="ghost" size="icon" onClick={onSidebarToggle}>
+                                <Sidebar className={cn('size-4', width === 'narrow' && 'hidden')} />
+                                <ChevronDown className={cn('size-4', width === 'full' && 'hidden')} />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                            align="start"
+                            className={cn('bg-card p-1 shadow-none', width === 'full' && 'md:hidden')}
+                        >
+                            <SidebarContent />
+                        </PopoverContent>
+                    </Popover>
                     <div className="bg-primary inline-block size-2 rounded-full" /> Your AI Assistant{' '}
                     {width === 'narrow' ? 'Embedded' : 'Application'}
                 </h1>
@@ -67,6 +66,7 @@ export function TopBar({ onSidebarToggle }: TopBarProps) {
                 <Button
                     variant="ghost"
                     size="icon"
+                    className={cn(width === 'narrow' && 'hidden')}
                     onClick={() =>
                         navigate({ to: '/', search: { chatId: Math.random().toString(36).substring(2, 15) } })
                     }

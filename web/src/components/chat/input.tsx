@@ -11,7 +11,13 @@ import { motion } from 'motion/react';
 import { useStore } from '@tanstack/react-store';
 import { widthStore } from '@/stores/width';
 
-export function ChatInput({ onSubmit }: { onSubmit: (message: string, files: File[]) => void }) {
+export function ChatInput({
+    onSubmit,
+    pending,
+}: {
+    onSubmit: (message: string, files: File[]) => void;
+    pending: boolean;
+}) {
     const [message, setMessage] = useState('');
     const [files, setFiles] = useState<File[]>([]);
     const width = useStore(widthStore);
@@ -21,6 +27,7 @@ export function ChatInput({ onSubmit }: { onSubmit: (message: string, files: Fil
 
     const submitMessage = () => {
         if (message.trim() === '') return;
+        if (pending) return;
         onSubmit(message, files);
         setMessage('');
         setFiles([]);
@@ -110,7 +117,9 @@ export function ChatInput({ onSubmit }: { onSubmit: (message: string, files: Fil
                     >
                         <PaperclipIcon />
                     </InputGroupButton>
-                    <InputGroupButton type="submit">Ask</InputGroupButton>
+                    <InputGroupButton type="submit" disabled={pending}>
+                        Ask
+                    </InputGroupButton>
                 </InputGroupAddon>
             </InputGroup>
         </motion.form>

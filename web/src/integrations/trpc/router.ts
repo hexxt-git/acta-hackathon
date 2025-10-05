@@ -1,35 +1,19 @@
-import { database } from '@/routes/api.ai';
+import { getChatList, getChatMessages, deleteChat } from '@/lib/database';
 import { createTRPCRouter, publicProcedure } from './init';
 import { z } from 'zod';
 
 import type { TRPCRouterRecord } from '@trpc/server';
 
 const chatsRouter = {
-    list: publicProcedure.query(() => {
-        return Object.keys(database).map((chatId) => {
-            const chatData = database[chatId];
-            const firstMessage = chatData.messages.find((msg) => msg.role === 'user');
-            const preview = firstMessage
-                ? firstMessage.content.length > 30
-                    ? firstMessage.content.substring(0, 30) + '...'
-                    : firstMessage.content
-                : '';
-
-            return {
-                id: chatId,
-                messages: chatData.messages.length,
-                preview,
-                createdAt: chatData.createdAt,
-                updatedAt: chatData.updatedAt,
-            };
-        });
+    list: publicProcedure.query(async () => {
+        return await getChatList();
     }),
-    get: publicProcedure.input(z.object({ id: z.string() })).query(({ input }) => {
-        return database[input.id]?.messages || [];
+    get: publicProcedure.input(z.object({ id: z.string() })).query(async ({ input }) => {
+        return await getChatMessages(input.id);
     }),
-    delete: publicProcedure.input(z.object({ id: z.string() })).mutation(({ input }) => {
-        if (database[input.id]) {
-            delete database[input.id];
+    delete: publicProcedure.input(z.object({ id: z.string() })).mutation(async ({ input }) => {
+        const deleted = await deleteChat(input.id);
+        if (deleted) {
             return { success: true };
         }
         return { success: false, error: 'Chat not found' };

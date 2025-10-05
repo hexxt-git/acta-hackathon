@@ -5,12 +5,18 @@ import { reminderExtension } from './extensions/reminder';
 import { Extension } from './types/extensions';
 import { optionsExtension } from './extensions/options';
 import { comparisonExtension } from './extensions/comparison';
+import { listExtension } from './extensions/list';
+import { keyValueExtension } from './extensions/key-value';
+import { specCardExtension } from './extensions/spec-card';
 
 export const extensions: Extension<any>[] = [
     emailExtension,
     todoExtension,
+    listExtension,
     draftExtension,
     reminderExtension,
     optionsExtension,
     comparisonExtension,
+    keyValueExtension,
+    specCardExtension,
 ];

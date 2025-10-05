@@ -134,6 +134,8 @@ export function Chat({ chatId }: { chatId?: string }) {
         // Trigger the mutation with the user message content
         // The server will handle storing both user and assistant messages
         // Cache invalidation will update the UI
+        if (message.trim() === '') return;
+        if (mutation.isPending || incomingMessage !== null) return;
         mutation.mutate(message);
     };
 
@@ -179,7 +181,7 @@ export function Chat({ chatId }: { chatId?: string }) {
                 pending={mutation.isPending || isLoading}
                 key={chatId}
             />
-            <ChatInput onSubmit={handleSubmit} />
+            <ChatInput onSubmit={handleSubmit} pending={mutation.isPending || isLoading || incomingMessage !== null} />
         </div>
     );
 }

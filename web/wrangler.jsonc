@@ -1,0 +1,7 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "acta-hackathon-app",
+    "compatibility_date": "2025-01-05",
+    "compatibility_flags": ["nodejs_compat"],
+    "main": "@tanstack/react-start/server-entry",
+}

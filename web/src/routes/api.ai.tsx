@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { validateRequestBody } from '../lib/api';
 import z from 'zod';
-import { streamObject, generateText, tool } from 'ai';
+import { streamObject, generateText } from 'ai';
 import { google } from '@ai-sdk/google';
 import { prompt, responseSchema } from '../lib/core/prompt';
 import { addUserMessage, addAssistantMessage, getChatMessages } from '../lib/database';

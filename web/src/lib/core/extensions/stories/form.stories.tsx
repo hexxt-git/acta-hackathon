@@ -30,11 +30,10 @@ export const Form: Story = {
             },
             {
                 id: '3',
-                type: 'select',
+                type: 'text',
                 label: 'How did you hear about us?',
-                placeholder: 'Select an option',
+                placeholder: 'Tell us how you found us',
                 required: true,
-                options: ['Social Media', 'Search Engine', 'Friend/Family', 'Advertisement', 'Other'],
             },
             {
                 id: '4',
